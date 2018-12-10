@@ -1,4 +1,4 @@
-# DeepHeart
+# BlueML
 
  This is a project for backend asynchronous Tensorflow JS applciation for BlueML. The project is based on DeepHeart, a neural network designed for the [2016 Physionet Challenge]
  (http://physionet.org/physiobank/database/challenge/2016/) in predicting
