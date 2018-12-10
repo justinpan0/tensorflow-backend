@@ -101,7 +101,7 @@ class CNN:
         score = (sensitivity + specificity) / 2.0
         tf.summary.scalar('score', score)
 
-        init = tf.initialize_all_variables()
+        init = tf.global_variables_initializer()
 
         saver = tf.train.Saver()
         with tf.Session() as sess:
