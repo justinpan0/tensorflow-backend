@@ -1,10 +1,7 @@
 # BlueML
 
- This is a project for backend asynchronous Tensorflow JS applciation for BlueML. The project is based on DeepHeart, a neural network designed for the [2016 Physionet Challenge]
- (http://physionet.org/physiobank/database/challenge/2016/) in predicting
- cardiac abnormalities from phonocardiogram (PCG) data. The challenge
- provides heart recordings from several patients labeled as normal
- or abnormal. It is difficult to predict patient health from PCG data 
+ This is a project for backend asynchronous Tensorflow JS applciation for BlueML. The project is based on DeepHeart (https://github.com/jisaacso/DeepHeart) in predicting
+ cardiac abnormalities from phonocardiogram (PCG) data. It is difficult to predict patient health from PCG data 
  because of noise from several sources: talking, breathing, intestinal 
  sounds, etc.
  
@@ -12,13 +9,15 @@
  network and, with some careful regularization, the model would learn 
  to accurately separate signal from noise. To reduce the cost of
  training, the number of hidden units is reduced in favor of
- some old school feature engineering: the fast fourier transform (FFT). 
+ some old school feature engineering: the fast fourier transform (FFT) and Singular Value Decomposition (SVD). 
  The FFT is a signal processing technique for converting a signal into
  a frequency domain. The original signal is also filtered with a high
  pass Butterworth filter aimed at removing noise above 4Hz (or 240 beats
  per minute). The filtered signal is again transformed to it's approximate
  frequency domain. A combination of the above fourier coefficients are 
- fed into the convolutional neural network.
+ fed into the convolutional neural network. The SVD is a dimension reduction technique for narrowing the number of features.
+
+ The reasons we gave up on Tensorflow JS are that a. it is still under active and intensive development and b. it lacks important functions such as SVD (generally, for rank reduction, unless you know the original matrix is indeed rank deficient, you should use SVD instead of QRD).
  
 # Installing
 
