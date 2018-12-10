@@ -46,6 +46,13 @@ Download Tensorflow and Tensorflow JS
 >> apt-get install tensorflowjs
 ```
 
+Modify the correct input path, output path and output node name in config.json
+```
+"saved_model_dir":"/tmp/saved-model/",
+"output_dir":"/tmp/tfjs-model/",
+"output_node_names":"MobilenetV1/Predictions/Reshape_1"
+```
+
 Build a feature vector from the raw data and train the CNN
 ```
 >> python deepheart/train_model.py <path_to_physionet_data> <do load previously saved data>
