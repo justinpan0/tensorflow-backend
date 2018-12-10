@@ -52,7 +52,6 @@ class CNN:
         with tf.name_scope('input'):
             X = tf.placeholder(tf.float32, [None, self.d_input], name='X')
             y = tf.placeholder(tf.float32, [None, self.nclasses], name='y')
-            do_drop = tf.placeholder(tf.float32, name='drop')
 
         with tf.name_scope('weights'):
             weights = {
@@ -73,7 +72,7 @@ class CNN:
             }
 
         with tf.name_scope('pred'):
-            pred = self.model1D(X, weights, biases, do_drop)
+            pred = self.model1D(X, weights, biases)
 
         with tf.name_scope('cost'):
             cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=pred, labels=y, name='cost'))
@@ -116,8 +115,7 @@ class CNN:
                     batch_x, batch_y = self.pcg.get_mini_batch(self.batch_size)
                     summary, _, c = sess.run([merged, optimizer, cost],
                                              feed_dict={X: batch_x,
-                                                        y: batch_y,
-                                                        do_drop: self.dropout})
+                                                        y: batch_y})
                     train_writer.add_summary(summary, epoch*batch)
                     avg_cost += c
                 avg_cost /= float(self.nbatches)
@@ -126,10 +124,8 @@ class CNN:
                 if epoch % 10 == 0:
                     acc, sens, spec = sess.run([score, sensitivity, specificity],
                                                 feed_dict={X: self.pcg.test.X,
-                                                           y: self.pcg.test.y,
-                                                           do_drop: 1.})
+                                                           y: self.pcg.test.y})
                     print('Score %s\tSensitivity %s\tSpecificity %s' % (acc, sens, spec))
-
                     saver.save(sess, self.__get_output_name())
                     print('Epoch written')
             
@@ -177,7 +173,7 @@ class CNN:
         x = tf.nn.bias_add(x, b)
         return tf.nn.relu(x)
 
-    def model1D(self, x, weights, biases, dropout):
+    def model1D(self, x, weights, biases):
         """
         A Wrapper to chain several TensorFlow convolutional units together. This 1D model
         ultimately calls TensorFlow's conv2d, mapping a 1D feature vector to a collapsed
@@ -224,7 +220,7 @@ class CNN:
             fc1 = tf.reshape(conv2, [-1, d_layer1])
             fc1 = tf.add(tf.matmul(fc1, weights['wd1']), biases['bd1'])
             fc1 = tf.nn.relu(fc1)
-            fc1 = tf.nn.dropout(fc1, dropout)
+            fc1 = tf.nn.dropout(fc1, self.dropout)
 
             out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
         return out

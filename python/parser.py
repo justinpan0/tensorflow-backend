@@ -12,8 +12,7 @@ from sklearn.utils import check_random_state
 
 class PCG:
     """
-    PCG is a container for loading phonocardiogram (PCG) data for the [2016 physionet
-    challenge](http://physionet.org/challenge/2016). Raw wav files are parsed into
+    PCG is a container for loading phonocardiogram (PCG) data. Raw wav files are parsed into
     features, class labels are extracted from header files and data is split into
     training and testing groups.
     """

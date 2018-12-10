@@ -12,7 +12,7 @@ def load_and_train_model(model_path, load_pretrained):
     else:
         pcg.initialize_wav_data()
 
-    cnn = CNN(pcg, epochs=10, dropout=0.5, batch_size=20)
+    cnn = CNN(pcg, epochs=100, dropout=0.5, batch_size=20)
     cnn.train()
 
 if __name__ == '__main__':
